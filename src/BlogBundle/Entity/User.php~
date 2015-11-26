@@ -1,0 +1,104 @@
+<?php
+namespace BlogBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ */
+class User
+{
+    const GROUP_ADMIN = 0;
+    const GROUP_USER = 1;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="integer", length=1)
+     */
+    protected $active;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $group;
+
+    /**
+     * @ORM\Column(type="integer", length=75, name="name")
+     */
+    protected $name;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    protected $username;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    protected $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $token;
+
+    public function setGroup($group)
+    {
+        if (!in_array($group, array(self::GROUP_ADMIN, self::GROUP_USER))) {
+            throw new \InvalidArgumentException("Invalid status");
+        }
+        $this->group = $group;
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set active
+     *
+     * @param integer $active
+     *
+     * @return User
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return integer
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Get group
+     *
+     * @return string
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+}
