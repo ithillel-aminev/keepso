@@ -24,6 +24,9 @@ class RegistrationController extends Controller
                 ->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
+            $user->setIsActive(true);
+            $user->setGroup(User::GROUP_USER);
+
             // 4) save the User!
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -32,7 +35,8 @@ class RegistrationController extends Controller
             // ... do any other work - like send them an email, etc
             // maybe set a "flash" success message for the user
 
-            return $this->redirectToRoute('replace_with_some_route');
+
+            return $this->redirectToRoute('login_route');
         }
 
         return $this->render(
