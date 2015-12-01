@@ -1,3 +1,8 @@
+blog_rest_api:
+    type:     rest
+    prefix:   /api
+    resource: "@BlogRestApiBundle/Resources/config/routes.yml"
+
 blog:
     resource: "@BlogBundle/Resources/config/routing.yml"
     prefix:   /
