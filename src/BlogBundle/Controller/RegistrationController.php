@@ -12,6 +12,11 @@ class RegistrationController extends Controller
 {
     public function registerAction(Request $request)
     {
+        $user = $this->getUser();
+        if ($user){
+            return $this->redirectToRoute('blog_homepage');
+        }
+
         // 1) build the form
         $user = new User();
         $form = $this->createForm(new UserType(), $user);
