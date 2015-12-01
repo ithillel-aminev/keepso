@@ -3,9 +3,11 @@
 {% block body %}
     {% if app.user %}
         {{ include('BlogBundle:includes:dashboard.html.twig') }}
+    {% else %}
+        {{ include('BlogBundle:includes:board.html.twig') }}
     {% endif %}
 
-    {% if user and app.user.Id == user.Id %}
+    {% if user and app.user and app.user.Id == user.Id %}
         <h1>My posts:</h1>
     {% elseif user %}
         <h1>{{ user.Username  }} user posts:</h1>

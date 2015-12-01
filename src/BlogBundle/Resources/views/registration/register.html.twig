@@ -1,6 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+    {{ include('BlogBundle:includes:board.html.twig') }}
+
     {{ form_start(form) }}
         {{ form_row(form.username) }}
         {{ form_row(form.email) }}
