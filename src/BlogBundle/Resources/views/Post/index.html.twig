@@ -14,9 +14,12 @@
     {% endif %}
 
     {% for post in posts %}
-        <div class="post" style="padding-bottom:10px; margin-bottom: 10px; border-bottom: 1px solid black;">
+        <div class="post" style="padding-bottom:10px; margin-bottom: 10px; border-bottom: 1px solid black;position: relative;">
             <h2 class="title">{{ post.title }}</h2>
             <div class="desc">{{ post.description }}</div>
+            {% if user and app.user and app.user.Id == user.Id %}
+                <div class="remove" style="position:absolute; width: 50px; top: 45%; right: 10px"><a href="/post/delete/{{ post.id }}">[remove]</a> </div>
+            {% endif %}
         </div>
     {% else %}
         <div>No posts found</div>

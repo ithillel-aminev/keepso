@@ -59,6 +59,26 @@ class PostController extends Controller
         return $this->render('BlogBundle:post:new.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
 
+    public function deleteAction($id)
+    {
+        $user = $this->getUser();
+
+        if (!$user){
+            throw $this->createAccessDeniedException('Not authorized to perform an action. ');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $post = $this->getDoctrine()->getRepository('BlogBundle:Post')->findOneBy(array('user' => $user->getId(), 'id' => $id));
+
+        if (!$post){
+            throw $this->createNotFoundException('No post found for id '.$id);
+        }
+
+        $em->remove($post);
+        $em->flush();
+
+        return $this->redirectToRoute('posts');
     }
 }

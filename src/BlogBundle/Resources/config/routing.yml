@@ -10,6 +10,10 @@ post_new:
     path: /post/new
     defaults: {_controller: BlogBundle:Post:new}
 
+post_delete:
+    path: /post/delete/{id}
+    defaults: {_controller: BlogBundle:Post:delete}
+
 user_registration:
     path:     /register
     defaults: { _controller: BlogBundle:Registration:register }
