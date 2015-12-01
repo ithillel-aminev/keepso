@@ -25,7 +25,7 @@ class RegistrationController extends Controller
             $user->setPassword($password);
 
             $user->setIsActive(true);
-            $user->setGroup(User::GROUP_USER);
+            $user->setRole(User::ROLE_USER);
 
             // 4) save the User!
             $em = $this->getDoctrine()->getManager();

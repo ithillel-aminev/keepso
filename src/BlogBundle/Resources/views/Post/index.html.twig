@@ -1,8 +1,23 @@
-<table>
-    <thead>
-        <th>Title</th>
-        <th>Description</th>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    {% if app.user %}
+        {{ include('BlogBundle:includes:dashboard.html.twig') }}
+    {% endif %}
+
+    {% if user and app.user.Id == user.Id %}
+        <h1>My posts:</h1>
+    {% elseif user %}
+        <h1>{{ user.Username  }} user posts:</h1>
+    {% endif %}
+
+    {% for post in posts %}
+        <div class="post" style="padding-bottom:10px; margin-bottom: 10px; border-bottom: 1px solid black;">
+            <h2 class="title">{{ post.title }}</h2>
+            <div class="desc">{{ post.description }}</div>
+        </div>
+    {% else %}
+        <div>No posts found</div>
+    {% endfor %}
+
+{% endblock %}

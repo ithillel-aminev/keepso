@@ -1,1 +1,20 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    {% if app.user %}
+        {{ include('BlogBundle:includes:dashboard.html.twig') }}
+    {% else %}
+        {{ include('BlogBundle:includes:board.html.twig') }}
+    {% endif %}
+
+    <h1>Bloggers List: </h1>
+    {% for user in users %}
+        <div class="user" style="padding-bottom:10px; margin-bottom: 10px; border-bottom: 1px solid black;">
+            <a href="/posts/{{ user.Username }}">{{ user.Username }}</a>
+        </div>
+    {% else %}
+        <div>No bloggers found. </div>
+    {% endfor %}
+
+{% endblock %}
+

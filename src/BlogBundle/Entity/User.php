@@ -14,8 +14,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
-    const GROUP_ADMIN = 0;
-    const GROUP_USER = 1;
+    const ROLE_ADMIN = 0;
+    const ROLE_USER = 1;
 
     /**
      * @ORM\Column(type="integer")
@@ -46,9 +46,9 @@ class User implements UserInterface, \Serializable
     protected $isActive;
 
     /**
-     * @ORM\Column(type="integer", name="`group`")
+     * @ORM\Column(type="integer", name="`role`")
      */
-    protected $group;
+    protected $role;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -60,12 +60,12 @@ class User implements UserInterface, \Serializable
      */
     protected $email;
 
-    public function setGroup($group)
+    public function setRole($group)
     {
-        if (!in_array($group, array(self::GROUP_ADMIN, self::GROUP_USER))) {
+        if (!in_array($group, array(self::ROLE_ADMIN, self::ROLE_USER))) {
             throw new \InvalidArgumentException("Invalid status");
         }
-        $this->group = $group;
+        $this->role = $group;
     }
 
     /** @see \Serializable::serialize() */
@@ -90,7 +90,13 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array('ROLE_USER', 'ROLE_ADMIN');
+        switch ($this->role){
+            case self::ROLE_ADMIN:
+                return array('ROLE_ADMIN');
+            case self::ROLE_USER:
+                return array('ROLE_USER');
+
+        }
     }
 
     public function eraseCredentials()
@@ -159,13 +165,13 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Get group
+     * Get role
      *
      * @return string
      */
-    public function getGroup()
+    public function getRole()
     {
-        return $this->group;
+        return $this->role;
     }
 
     /**

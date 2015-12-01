@@ -1,10 +1,14 @@
 blog_homepage:
     path:     /
-    defaults: { _controller: BlogBundle:Post:index }
+    defaults: { _controller: BlogBundle:Default:index}
 
-blog_add_post:
-    path: /add_post
-    defaults: {_controller: BlogBundle:Post:create}
+posts:
+    path:     /posts/{username}
+    defaults: { _controller: BlogBundle:Post:index, username: NULL }
+
+post_new:
+    path: /post/new
+    defaults: {_controller: BlogBundle:Post:new}
 
 user_registration:
     path:     /register
@@ -17,4 +21,7 @@ login_route:
 login_check:
     path:       /login_check
     defaults:   { _controller: BlogBundle:Security:loginCheck }
+
+logout:
+    path: /logout
 

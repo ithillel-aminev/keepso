@@ -19,6 +19,9 @@ security:
                 login_path: /login
                 check_path: /login_check
             provider: our_db_provider
+            logout:
+              path: /logout
+              target: /
 
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -36,6 +39,6 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
-        - { path: ^/admin/, roles: ROLE_ADMIN }
-        - { path: ^/admin$, roles: ROLE_ADMIN }
+        - { path: ^/post/new/, roles: ROLE_USER }
+        - { path: ^/post/new, roles: ROLE_USER }
 

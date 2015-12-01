@@ -4,35 +4,61 @@ namespace BlogBundle\Controller;
 
 use BlogBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
-    public function indexAction()
+    public function indexAction($username)
     {
-        $posts = array(
-            array('title' => 'title1', 'desc' => 'desc1'),
-            array('title' => 'title2', 'desc' => 'desc2'),
-        );
-        return $this->render('BlogBundle:Post:index.html.twig', array('posts' => $posts));
+        $postRepository = $this->getDoctrine()->getRepository('BlogBundle:Post');
+        $userRepository = $this->getDoctrine()->getRepository('BlogBundle:User');
+
+        $user = NULL;
+        $error = NULL;
+
+        if ( $username ){
+            $user = $userRepository->findOneBy(array('username' => $username));
+        } elseif ($user = $this->getUser()) {
+
+        } else {
+            $user = $userRepository->findOneBy(array('limit' => 1));
+        }
+
+        $posts = array();
+        if ( $user ){
+            $posts = $postRepository->findBy(array('user' => $user->getId()));
+        }
+
+        return $this->render('BlogBundle:Post:index.html.twig', array('posts' => $posts, 'user'=> $user ));
     }
 
-    public function createAction()
+    public function newAction(Request $request)
     {
-        $title = 'TestTitle';
-        $desc = 'TestDesc';
-        $user = 1;
-
         $post = new Post();
-        $post->setTitle($title);
-        $post->setDescription($desc);
-        $post->setUser($user);
 
-        $em = $this->getDoctrine()->getManager();
+        $form = $this->createFormBuilder($post)
+            ->add('title', 'text')
+            ->add('description', 'textarea')
+            ->add('save', 'submit', array('label' => 'Create Post'))
+            ->getForm();
 
-        $em->persist($post);
-        $em->flush();
+        $form->handleRequest($request);
 
-        return new Response('Created a post with id='.$post->getId());
+        if ($form->isValid()) {
+            $user = $this->getUser();
+            $post->setUser($user->getId());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+
+
+            return $this->redirectToRoute('posts');
+        }
+
+        return $this->render('BlogBundle:post:new.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
     }
 }

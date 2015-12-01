@@ -12,7 +12,7 @@ class UserController extends Controller
 
         $user = new User();
         $user->setIsActive(1);
-        $user->setGroup(User::GROUP_USER);
+        $user->setRole(User::ROLE_USER);
         $user->setEmail('tim8917@gmail.com');
         $user->setUsername('tim8917@gmail.com');
         $user->setName('tim8917@gmail.com');
